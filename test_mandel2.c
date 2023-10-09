@@ -10,7 +10,7 @@
 #define HEIGHT 800
 
 #define MLX_ERROR 1
-#define MAX_ITER 100
+#define MAX_ITER 500
 
 typedef struct s_img
 {
@@ -21,7 +21,7 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct s_data
+typedef struct s_fractal
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -29,7 +29,7 @@ typedef struct s_data
 	double	zoom;
     double shift_x;
     double shift_y;
-}	t_data;
+}	t_fractal;
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -39,24 +39,20 @@ void ft_pixel_put(t_img *img, int x, int y, int color)
     *(unsigned int *)pixel = color;
 }
 
-/*void	img_pix_put(t_img *img, int x, int y, int color)
-{
-	char    *pixel;
-	int		i;
-
-	i = img->bpp - 8;
-    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	while (i >= 0)
-	{
-		// big endian, MSB is the leftmost bit
-		if (img->endian != 0)
-			*pixel++ = (color >> i) & 0xFF;
-		//little endian, LSB is the leftmost bit
-		else
-			*pixel++ = (color >> (img->bpp - 8 - i)) & 0xFF;
-		i -= 8;
-	}
-}*/
+/* Mandelbrot equation
+ *		z = z^2 + c
+ *		z is initially (0, 0)
+ *		c is the constant/actual point
+ *
+ *		z = z^2 + c -> z1 = c + c
+ *
+ * 	Julia equation
+ *		./fractol julia <real> <imag> 
+ *		z = pixel point + constant
+ *
+ * real = (x^2 - y^2)
+ * imag =  2*x*y
+ */
 
 int mandelbrot(double real, double imag)
 {
@@ -71,7 +67,7 @@ int mandelbrot(double real, double imag)
     {
         z_real_squared = z_real * z_real;
         z_imag_squared = z_imag * z_imag;
-        if (z_real_squared + z_imag_squared > 4.0)
+        if (z_real_squared + z_imag_squared > 4.0) // 2^2 hypotenuse
             return (i); // diverged
         z_imag = 2 * z_real * z_imag + imag;
         z_real = z_real_squared - z_imag_squared + real;
@@ -80,27 +76,10 @@ int mandelbrot(double real, double imag)
     return (MAX_ITER); // Did not diverge within max iterations
 }
 
-// Function to calculate the Mandelbrot set
-/*int mandelbrot(double real, double imag)
-{
-    double complex z = real + imag * I;
-    double complex c = z;
-
-    for (int n = 0; n < MAX_ITER; ++n)
-    {
-        if (cabs(z) > 2.0)
-            return n; // Diverged
-
-        z = z * z + c; // Mandelbrot iteration formula
-    }
-
-    return (MAX_ITER); // Did not diverge within the maximum iterations
-} */
-
 // Function to render the Mandelbrot fractal
-void render_mandelbrot(t_data *data)
+void render_mandelbrot(t_fractal *fractal)
 {
-    int fractal;
+    int render;
     int pixel_color;
 	double real;
 	double imag;
@@ -110,20 +89,76 @@ void render_mandelbrot(t_data *data)
         for (int x = 0; x < WIDTH; ++x)
         {
             // Map the pixel coordinates to the Mandelbrot coordinates
-            real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * data->zoom) + data->shift_x;
-            imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * data->zoom) + data->shift_y;
-
-            fractal = mandelbrot(real, imag);
+            real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
+            imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
+            render = mandelbrot(real, imag);
 
             // Map the color to a pixel value based on the number of iterations
-            int r = (fractal * 10) % 50;
-            int g = (fractal * 10) % 200;
-            int b = (fractal * 10) % 235;
-
+            int r = render % 252;
+            int g = render % 190;
+            int b = render % 17;
             pixel_color = (r << 16) + (g << 8) + b;
-            ft_pixel_put(&data->img, x, y, pixel_color);
+            ft_pixel_put(&fractal->img, x, y, pixel_color * render);
         }
     }
+}
+            // FCBE11 (252, 190, 17) = british standard subtitle color
+
+int julia(double z_real, double z_imag, double c_real, double c_imag)
+{
+	double z_real_squared;
+	double z_imag_squared;
+    int i;
+	
+	i = 0;
+    while (i < MAX_ITER)
+    {
+        z_real_squared = z_real * z_real;
+        z_imag_squared = z_imag * z_imag;
+        if (z_real_squared + z_imag_squared > 4.0) // 2^2 hypotenuse
+            return (i); // diverged
+        z_imag = 2 * z_real * z_imag + c_imag;
+        z_real = z_real_squared - z_imag_squared + c_real;
+		i++;
+    }
+    return (MAX_ITER); // Did not diverge within max iterations
+}
+
+void render_julia(t_fractal *fractal, double c_real, double c_imag)
+{
+    int render;
+    int pixel_color;
+	double real;
+	double imag;
+
+    for (int y = 0; y < HEIGHT; ++y)
+    {
+        for (int x = 0; x < WIDTH; ++x)
+        {
+            // Map the pixel coordinates to the Mandelbrot coordinates
+            real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
+            imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
+            render = julia(real, imag, c_real, c_imag);
+            // Map the color to a pixel value based on the number of iterations
+            int r = render % 252;
+            int g = render % 190;
+            int b = render % 17;
+            pixel_color = (r << 16) + (g << 8) + b;
+            ft_pixel_put(&fractal->img, x, y, pixel_color * render);
+        }
+    }
+}
+
+int render(t_fractal *fractal)
+{
+	if (fractal->win_ptr == NULL)
+		return (1);
+	double c_real = 0.355;
+    double c_imag = 0.355; //adjust for julia set
+	render_julia(fractal, c_real, c_imag);
+	//render_mandelbrot(fractal);
+	mlx_put_image_to_window(fractal->mlx_ptr, fractal->win_ptr, fractal->img.mlx_img, 0, 0);
+	return (0);
 }
 
 int close_window(void *param)
@@ -131,69 +166,61 @@ int close_window(void *param)
     exit(0); // Exit the program when called
 }
 
-int key_handler(int keycode, t_data *data)
+int key_handler(int keycode, t_fractal *fractal)
 {
 	if (keycode == XK_Escape)
 	{
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		//data->win_ptr = NULL;
+		mlx_destroy_window(fractal->mlx_ptr, fractal->win_ptr);
+		//fractal->win_ptr = NULL;
         exit(0);
 	}
     if (keycode == XK_Left)
-        data->shift_x += (0.1 * data->zoom);
+        fractal->shift_x += (0.1 * fractal->zoom);
     if (keycode == XK_Right)
-        data->shift_x -= (0.1 * data->zoom);
+        fractal->shift_x -= (0.1 * fractal->zoom);
     if (keycode == XK_Up)
-        data->shift_y += (0.1 * data->zoom);
+        fractal->shift_y += (0.1 * fractal->zoom);
     if (keycode == XK_Down)
-        data->shift_y -= (0.1 * data->zoom);
+        fractal->shift_y -= (0.1 * fractal->zoom);
 	return (0);
 }
 
-int mouse_handler(int button, int x, int y, t_data *data)
+int mouse_handler(int button, int x, int y, t_fractal *fractal)
 {
 	if (button == Button4) // Mouse wheel up
-		data->zoom *= 1.05; // Zoom in
+		fractal->zoom *= 1.05; // Zoom in
 	else if (button == Button5) // Mouse wheel down
-		data->zoom *= 0.95; // Zoom out
+		fractal->zoom *= 0.95; // Zoom out
 	return (0);
 }
 
-int render(t_data *data)
-{
-	if (data->win_ptr == NULL)
-		return (1);
-	render_mandelbrot(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
-	return (0);
-}
 
 int main(void)
 {
-	t_data data;
+	t_fractal fractal;
 	
-    data.zoom = 1.0; // Start with no zoom
-	data.mlx_ptr = mlx_init();
-	if (data.mlx_ptr == NULL)
+    fractal.zoom = 1.0; // Start with no zoom
+	fractal.mlx_ptr = mlx_init();
+	if (fractal.mlx_ptr == NULL)
 		return (MLX_ERROR);
-	data.win_ptr = mlx_new_window(data.mlx_ptr, WIDTH, HEIGHT, "Mandelbrot");
-	if (data.win_ptr == NULL)
+	fractal.win_ptr = mlx_new_window(fractal.mlx_ptr, WIDTH, HEIGHT, "Mandelbrot");
+	if (fractal.win_ptr == NULL)
 	{
-		free(data.win_ptr);
+		free(fractal.win_ptr);
 		return (MLX_ERROR);
 	}
 	/* Setup hooks */
-	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WIDTH, HEIGHT);
-	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
-			&data.img.line_len, &data.img.endian);
-	mlx_loop_hook(data.mlx_ptr, &render, &data);
-	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &key_handler, &data);
-	mlx_hook(data.win_ptr, ButtonPress, ButtonPressMask, &mouse_handler, &data);
-    mlx_hook(data.win_ptr, 17, 0, close_window, NULL);
-	mlx_loop(data.mlx_ptr);
+	fractal.img.mlx_img = mlx_new_image(fractal.mlx_ptr, WIDTH, HEIGHT);
+	fractal.img.addr = mlx_get_data_addr(fractal.img.mlx_img, &fractal.img.bpp,
+			&fractal.img.line_len, &fractal.img.endian);
+	mlx_loop_hook(fractal.mlx_ptr, &render, &fractal);
+	mlx_hook(fractal.win_ptr, KeyPress, KeyPressMask, &key_handler, &fractal);
+	mlx_hook(fractal.win_ptr, ButtonPress, ButtonPressMask, &mouse_handler, &fractal);
+    mlx_hook(fractal.win_ptr, 17, 0, close_window, NULL);
+	mlx_loop(fractal.mlx_ptr);
 	/* we will exit the loop if there's no window left, and execute this code */
-	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
-	mlx_destroy_display(data.mlx_ptr);
-	free(data.mlx_ptr);
+	mlx_destroy_image(fractal.mlx_ptr, fractal.img.mlx_img);
+	mlx_destroy_display(fractal.mlx_ptr);
+	free(fractal.mlx_ptr);
 	return (0);
 }
