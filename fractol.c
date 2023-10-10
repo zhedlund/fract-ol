@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:34:00 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/04 12:24:05 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:34:19 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 int main(int argc, char **argv)
 {
     if (argc < 2)
-        return (0);
+        help_msg;
     
 }

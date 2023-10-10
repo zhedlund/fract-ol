@@ -29,7 +29,6 @@ typedef struct s_fractal
 	double	zoom;
     double shift_x;
     double shift_y;
-    int     color;
 }	t_fractal;
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
@@ -55,19 +54,24 @@ void ft_pixel_put(t_img *img, int x, int y, int color)
  * imag =  2*x*y
  */
 
-int pixel_color(int i)
+void color_palette(int color)
 {
+    int i;
     int r;
     int g;
     int b;
 
-    // Map each iteration count to a color in the palette
-    r = i % 252;
-    g = i % 190;
-    b = i % 17;
-    return ((r << 16) | (g << 8) | b);
+    i = 0;
+    while (i <= MAX_ITER)
+    {
+        // Map each iteration count to a color in the palette
+        r = (i * 10) % 252;
+        g = (i * 5) % 190;
+        b = (i * 20) % 17;
+        i = (r << 16) | (g << 8) | b;
+        i++;
+    }
 }
-// FCBE11 (252, 190, 17) = british standard subtitle color
 
 int mandelbrot(double real, double imag)
 {
@@ -94,7 +98,8 @@ int mandelbrot(double real, double imag)
 // Function to render the Mandelbrot fractal
 void render_mandelbrot(t_fractal *fractal)
 {
-    int i;
+    int iter;
+    int pixel_color;
 	double real;
 	double imag;
     int y;
@@ -109,14 +114,20 @@ void render_mandelbrot(t_fractal *fractal)
             // Map the pixel coordinates to the Mandelbrot coordinates
             real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
             imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
-            i = mandelbrot(real, imag);
-            fractal->color = pixel_color(i);
-            ft_pixel_put(&fractal->img, x, y, fractal->color * i);
+            iter = mandelbrot(real, imag);
+
+            // Map the color to a pixel value based on the number of iterations
+            //int r = iter % 252;
+            //int g = iter % 190;
+            //int b = iter % 17;
+            color_palette(pixel_color);
+            ft_pixel_put(&fractal->img, x, y, pixel_color * iter);
             x++;
         }
         y++;
     }
 }
+            // FCBE11 (252, 190, 17) = british standard subtitle color
 
 int julia(double z_real, double z_imag, double c_real, double c_imag)
 {
@@ -141,7 +152,8 @@ int julia(double z_real, double z_imag, double c_real, double c_imag)
 
 void render_julia(t_fractal *fractal, double c_real, double c_imag)
 {
-    int i;
+    int iter;
+    int pixel_color;
 	double real;
 	double imag;
     int y;
@@ -156,10 +168,13 @@ void render_julia(t_fractal *fractal, double c_real, double c_imag)
             // Map the pixel coordinates to the fractal coordinates
             real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
             imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
-            i = julia(real, imag, c_real, c_imag);
+            iter = julia(real, imag, c_real, c_imag);
             // Map the color to a pixel value based on the number of iterations
-            fractal->color = pixel_color(i);
-            ft_pixel_put(&fractal->img, x, y, fractal->color * i);
+            int r = iter % 252;
+            int g = iter % 190;
+            int b = iter % 17;
+            pixel_color = (r << 16) + (g << 8) + b;
+            ft_pixel_put(&fractal->img, x, y, pixel_color * iter);
             x++;
         }
         y++;
@@ -172,8 +187,8 @@ int render(t_fractal *fractal)
 		return (1);
 	double c_real = 0.355;
     double c_imag = 0.355; //adjust for julia set
-	render_julia(fractal, c_real, c_imag);
-	//render_mandelbrot(fractal);
+	//render_julia(fractal, c_real, c_imag);
+	render_mandelbrot(fractal);
 	mlx_put_image_to_window(fractal->mlx_ptr, fractal->win_ptr, fractal->img.mlx_img, 0, 0);
 	return (0);
 }
@@ -226,7 +241,6 @@ int main(void)
 		free(fractal.win_ptr);
 		return (MLX_ERROR);
 	}
-    fractal.color = 0;
 	/* Setup hooks */
 	fractal.img.mlx_img = mlx_new_image(fractal.mlx_ptr, WIDTH, HEIGHT);
 	fractal.img.addr = mlx_get_data_addr(fractal.img.mlx_img, &fractal.img.bpp,

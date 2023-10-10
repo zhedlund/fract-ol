@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/09/27 16:28:04 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:40:49 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-#define ERROR_MESSAGE "Please enter "./fractol mandelbrot\" or "./fractol julia <value1> <value2>\""
+#define HELP_MSG "Please enter "./fractol mandelbrot\" or "./fractol julia <value1> <value2>\""
 
 #define WIDTH	800
 #define	HEIGHT	800
