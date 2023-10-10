@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/10 15:40:49 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:42:20 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,7 @@
 #define HOT_PINK			0xFF66B2
 #define ELECTRIC_BLUE		0x0066FF
 #define LAVA_RED			0xFF3300
+
+void	ft_putstr(char *str);
 
 #endif
