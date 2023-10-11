@@ -6,13 +6,22 @@
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:39:40 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/10 18:22:13 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:48:38 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void    help_msg(t_fractal *fractal)
+void    print_control_options(void)
+{
+    ft_putstr("===== Program controls =====\n");
+    ft_putstr("Arrow keys to move view\n");
+    ft_putstr("Mouse wheel to zoom in/out\n");
+    ft_putstr("ESC or close window to end program\n");
+}
+
+
+void    print_help_msg(void)
 {
     ft_putstr("\n====== FRACT-OL ======\n");
     ft_putstr("Choose a fractal:\n");
@@ -25,9 +34,5 @@ void    help_msg(t_fractal *fractal)
     ft_putstr("======== Colors ========\n");
     ft_putstr("To choose a color, input hexadecimal code\n");
     ft_putstr("Usage example: ./fractol j 0.355 0.355 00FF80\n\n");
-    ft_putstr("===== Program controls =====\n");
-    ft_putstr("Arrow keys to move view\n");
-    ft_putstr("Mouse wheel to zoom in/out\n");
-    ft_putstr("ESC or close window to end program\n");
-    exit(0);
+    print_control_options();
 }
