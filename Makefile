@@ -6,7 +6,7 @@
 #    By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/04 12:25:57 by zhedlund          #+#    #+#              #
-#    Updated: 2023/10/12 14:58:40 by zhedlund         ###   ########.fr        #
+#    Updated: 2023/10/12 19:21:39 by zhedlund         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = fractol
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 LFLAGS = -lmlx -lXext -lX11 -lm 
-SRC = fractol.c help_msg.c julia.c key_handler.c mandelbrot.c render_fractal.c utils.c 
+SRC = fractol.c help_msg.c julia.c key_handler.c mandelbrot.c render_fractal.c utils.c tricorn.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

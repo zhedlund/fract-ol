@@ -1,41 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   tricorn.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 15:50:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/12 19:05:49 by zhedlund         ###   ########.fr       */
+/*   Created: 2023/10/12 19:06:10 by zhedlund          #+#    #+#             */
+/*   Updated: 2023/10/12 19:59:10 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int calculate_mandelbrot(double real, double imag)
+int calculate_tricorn(double real, double imag)
 {
-    double z_real = 0;
-    double z_imag = 0;
-	double z_real_squared;
-	double z_imag_squared;
-    int i;
-	
+    double  z_real = real;
+    double  z_imag = imag;
+    double  temp;
+    int     i;
+    
 	i = 0;
     while (i < MAX_ITER)
     {
-        z_real_squared = z_real * z_real;
-        z_imag_squared = z_imag * z_imag;
-        if (z_real_squared + z_imag_squared > 4.0) // 2^2 hypotenuse
+        if (z_real * z_real + z_imag * z_imag > 4.0)
             return (i); // diverged
-        z_imag = 2 * z_real * z_imag + imag;
-        z_real = z_real_squared - z_imag_squared + real;
+        temp = z_real * z_real - z_imag * z_imag + real;
+        z_imag = -2 * z_real * z_imag + imag;
+        z_real = temp;
 		i++;
     }
     return (MAX_ITER); // Did not diverge within max iterations
 }
 
-// Function to render the Mandelbrot fractal
-void render_mandelbrot(t_fractal *fractal)
+void render_tricorn(t_fractal *fractal)
 {
     int i;
 	double real;
@@ -49,10 +46,9 @@ void render_mandelbrot(t_fractal *fractal)
         x = 0;
         while (x < WIDTH)
         {
-            // Map the pixel coordinates to the Mandelbrot coordinates
             real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
             imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
-            i = calculate_mandelbrot(real, imag);
+            i = calculate_tricorn(real, imag);
             fractal->color = pixel_color(i);
             ft_pixel_put(&fractal->img, x, y, fractal->color * i);
             x++;

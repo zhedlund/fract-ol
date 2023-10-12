@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:41:17 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/12 14:25:45 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/12 20:44:48 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ int render_fractal(t_fractal *fractal)
 {
 	if (fractal->win_ptr == NULL)
 		return (1);
-	//double c_real = 0.355;
-    //double c_imag = 0.355; //adjust for julia set
-	//render_julia(fractal, c_real, c_imag);
-	render_mandelbrot(fractal);
+	double c_real = 0.355;
+    double c_imag = 0.355; //adjust for julia set, struct member assign stdin
+	render_julia(fractal, c_real, c_imag);
+	//render_mandelbrot(fractal);
+    //render_tricorn(fractal);
 	mlx_put_image_to_window(fractal->mlx_ptr, fractal->win_ptr, fractal->img.mlx_img, 0, 0);
 	return (0);
 }

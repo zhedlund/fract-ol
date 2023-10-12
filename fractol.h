@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/12 13:52:12 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:18:25 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ typedef struct s_fractal
 /* fractals */
 int     calculate_julia(double z_real, double z_imag, double c_real, double c_imag);
 int     calculate_mandelbrot(double real, double imag);
+int		calculate_tricorn(double real, double imag);
 void    render_julia(t_fractal *fractal, double c_real, double c_imag);
 void    render_mandelbrot(t_fractal *fractal);
+void	render_tricorn(t_fractal *fractal);
 
 /* rendering utils */
 int     pixel_color(int i);
