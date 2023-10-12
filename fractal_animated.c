@@ -65,9 +65,12 @@ void color_palette(int color)
     while (i <= MAX_ITER)
     {
         // Map each iteration count to a color in the palette
-        r = (i * 10) % 252;
+        /*r = (i * 10) % 252;
         g = (i * 5) % 190;
-        b = (i * 20) % 17;
+        b = (i * 20) % 17;*/
+        r = i % 252;
+        g = i % 190;
+        b = i % 17;
         i = (r << 16) | (g << 8) | b;
         i++;
     }
