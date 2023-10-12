@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/11 16:21:03 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:52:12 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ void    ft_pixel_put(t_img *img, int x, int y, int color);
 int     render_fractal(t_fractal *fractal);
 
 /* mlx stuff */
-int     key_handler(int keycode, t_fractal *fractal);
+int		key_handler(int keycode, t_fractal *fractal);
 int     mouse_handler(int button, int x, int y, t_fractal *fractal);
 void    hooks_init(t_fractal *fractal);
-int     close_window(void *param);
+int     close_window(void);
 
 /* stdout */
 void    print_control_options(void);

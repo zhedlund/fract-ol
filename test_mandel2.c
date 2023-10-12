@@ -150,7 +150,7 @@ void render_julia(t_fractal *fractal, double c_real, double c_imag)
     y = 0;
     while (y < HEIGHT)
     {
-        int x = 0;
+        x = 0;
         while (x < WIDTH)
         {
             // Map the pixel coordinates to the fractal coordinates
@@ -178,7 +178,7 @@ int render(t_fractal *fractal)
 	return (0);
 }
 
-int close_window(void *param)
+int close_window(void)
 {
     exit(0); // Exit the program when called
 }
@@ -199,11 +199,14 @@ int key_handler(int keycode, t_fractal *fractal)
         fractal->shift_y += (0.1 * fractal->zoom);
     if (keycode == XK_Down)
         fractal->shift_y -= (0.1 * fractal->zoom);
-	return (0);
+    return (0);
 }
 
 int mouse_handler(int button, int x, int y, t_fractal *fractal)
 {
+    (void)x;
+    (void)y;
+
 	if (button == Button4) // Mouse wheel up
 		fractal->zoom *= 1.05; // Zoom in
 	else if (button == Button5) // Mouse wheel down
@@ -227,7 +230,7 @@ int main(void)
 		return (MLX_ERROR);
 	}
     fractal.color = 0;
-	/* Setup hooks */
+	//Setup hooks
 	fractal.img.mlx_img = mlx_new_image(fractal.mlx_ptr, WIDTH, HEIGHT);
 	fractal.img.addr = mlx_get_data_addr(fractal.img.mlx_img, &fractal.img.bpp,
 			&fractal.img.line_len, &fractal.img.endian);
@@ -236,7 +239,7 @@ int main(void)
 	mlx_hook(fractal.win_ptr, ButtonPress, ButtonPressMask, &mouse_handler, &fractal);
     mlx_hook(fractal.win_ptr, 17, 0, close_window, NULL);
 	mlx_loop(fractal.mlx_ptr);
-	/* we will exit the loop if there's no window left, and execute this code */
+	// we will exit the loop if there's no window left, and execute this code
 	mlx_destroy_image(fractal.mlx_ptr, fractal.img.mlx_img);
 	mlx_destroy_display(fractal.mlx_ptr);
 	free(fractal.mlx_ptr);

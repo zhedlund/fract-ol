@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:50:08 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/11 15:56:27 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/12 12:44:25 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void render_julia(t_fractal *fractal, double c_real, double c_imag)
     y = 0;
     while (y < HEIGHT)
     {
-        int x = 0;
+        x = 0;
         while (x < WIDTH)
         {
             // Map the pixel coordinates to the fractal coordinates
