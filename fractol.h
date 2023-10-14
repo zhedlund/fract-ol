@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zhedlund <zhedlund@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/12 19:18:25 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/14 13:53:02 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ typedef struct s_fractal
     double shift_x;
     double shift_y;
     int     color;
+	double	julia_cx;
+	double	julia_cy;
+	char	name;
 }	t_fractal;
 
 /* fractals */
@@ -89,5 +92,6 @@ void    print_help_msg(void);
 
 /* utils */
 void	ft_putstr(char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
