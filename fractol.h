@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/14 13:53:02 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/15 19:44:43 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,6 @@
 #define WIDTH	800
 #define	HEIGHT	800
 #define MAX_ITER 500
-
-//Basic colors
-#define BLACK				0x000000  // RGB(0, 0, 0)
-#define WHITE				0xFFFFFF  // RGB(255, 255, 255)
-#define RED					0xFF0000  // RGB(255, 0, 0)
-#define GREEN				0x00FF00  // RGB(0, 255, 0)
-#define BLUE				0x0000FF  // RGB(0, 0, 255)
-
-//vibrant colors
-#define MAGENTA_BURST		0xFF00FF
-#define LIME_SHOCK			0xCCFF00
-#define NEON_ORANGE			0xFF6600
-#define PSYCHEDELIC_PURPLE	0x660066
-#define AQUA_DREAM			0x33CCCC
-#define HOT_PINK			0xFF66B2
-#define ELECTRIC_BLUE		0x0066FF
-#define LAVA_RED			0xFF3300
 
 typedef struct s_img
 {
@@ -84,14 +67,23 @@ int     render_fractal(t_fractal *fractal);
 int		key_handler(int keycode, t_fractal *fractal);
 int     mouse_handler(int button, int x, int y, t_fractal *fractal);
 void    hooks_init(t_fractal *fractal);
-int     close_window(void);
+int     close_window(t_fractal *fractal);
 
 /* stdout */
 void    print_control_options(void);
 void    print_help_msg(void);
+int		input_check(t_fractal *fractal, int argc, char **argv);
+void	clean_exit(int exit_code, t_fractal *fractal);
 
 /* utils */
 void	ft_putstr(char *str);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+double	ft_atof(const char *str);
+int		ft_atoi(const char *str);
+char	*ft_strchr(const char *s, int c);
+int		ft_isdigit(char c);
+void	ft_putstr(char *str);
+size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

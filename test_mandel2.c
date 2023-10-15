@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:07:36 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/14 13:07:38 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/15 17:39:45 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,6 @@ int mouse_handler(int button, int x, int y, t_fractal *fractal)
 		fractal->zoom *= 0.95; // Zoom out
 	return (0);
 }
-
 
 int main(void)
 {

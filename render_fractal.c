@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:41:17 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/14 13:07:26 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/15 17:42:25 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,17 @@ int pixel_color(int i)
 
 int render_fractal(t_fractal *fractal)
 {
-	if (fractal->win_ptr == NULL)
-		return (1);
-	double c_real = 0.355;
-    double c_imag = 0.355; //adjust for julia set, struct member assign stdin
-	render_julia(fractal, c_real, c_imag);
-	//render_mandelbrot(fractal);
-    //render_tricorn(fractal);
+    if (fractal->name == 'j')
+	    render_julia(fractal, fractal->julia_cx, fractal->julia_cy);
+	else if (fractal->name == 'm')
+        render_mandelbrot(fractal);
+    else if (fractal->name == 't')
+            render_tricorn(fractal);
+    else
+    {
+        print_help_msg();
+        exit(1);
+    }
 	mlx_put_image_to_window(fractal->mlx_ptr, fractal->win_ptr, fractal->img.mlx_img, 0, 0);
 	return (0);
 }
