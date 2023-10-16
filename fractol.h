@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/15 19:44:43 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/16 14:14:57 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_fractal
 	void	*win_ptr;
 	t_img	img;
 	double	zoom;
-    double shift_x;
-    double shift_y;
+    double	shift_x;
+    double	shift_y;
     int     color;
 	double	julia_cx;
 	double	julia_cy;

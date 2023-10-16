@@ -29,6 +29,8 @@ typedef struct s_fractal
 	double	zoom;
     double shift_x;
     double shift_y;
+    double  real;
+    double  imag;
 }	t_fractal;
 
 void ft_pixel_put(t_img *img, int x, int y, int color)
@@ -54,6 +56,19 @@ void ft_pixel_put(t_img *img, int x, int y, int color)
  * imag =  2*x*y
  */
 
+int pixel_color(int i)
+{
+    int r;
+    int g;
+    int b;
+
+    // Map each iteration count to a color in the palette
+    r = i % 252;
+    g = i % 190;
+    b = i % 17;
+    return ((r << 16) | (g << 8) | b);
+}
+
 void color_palette(int color)
 {
     int i;
@@ -64,10 +79,6 @@ void color_palette(int color)
     i = 0;
     while (i <= MAX_ITER)
     {
-        // Map each iteration count to a color in the palette
-        /*r = (i * 10) % 252;
-        g = (i * 5) % 190;
-        b = (i * 20) % 17;*/
         r = i % 252;
         g = i % 190;
         b = i % 17;
@@ -102,9 +113,9 @@ int mandelbrot(double real, double imag)
 void render_mandelbrot(t_fractal *fractal)
 {
     int iter;
-    int pixel_color;
-	double real;
-	double imag;
+    int pix_color;
+	//double real;
+	//double imag;
     int y;
     int x;
 
@@ -114,17 +125,10 @@ void render_mandelbrot(t_fractal *fractal)
         x = 0;
         while (x < WIDTH)
         {
-            // Map the pixel coordinates to the Mandelbrot coordinates
-            real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
-            imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
-            iter = mandelbrot(real, imag);
-
-            // Map the color to a pixel value based on the number of iterations
-            //int r = iter % 252;
-            //int g = iter % 190;
-            //int b = iter % 17;
-            color_palette(pixel_color);
-            ft_pixel_put(&fractal->img, x, y, pixel_color * iter);
+            fractal->real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
+            fractal->imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
+            iter = mandelbrot(fractal->real, fractal->imag);
+            ft_pixel_put(&fractal->img, x, y, pix_color * iter);
             x++;
         }
         y++;

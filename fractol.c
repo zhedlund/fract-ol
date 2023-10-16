@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:34:00 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/15 19:50:13 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:27:46 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void    hooks_init(t_fractal *fractal)
 {
     mlx_hook(fractal->win_ptr, KeyPress, KeyPressMask, key_handler, fractal);
 	mlx_hook(fractal->win_ptr, ButtonPress, ButtonPressMask, mouse_handler, fractal);
-    mlx_hook(fractal->win_ptr, 17, 0, close_window, NULL);
+    mlx_hook(fractal->win_ptr, 17, 0, close_window, fractal);
 }
 
 void    fractal_init(t_fractal *fractal)
@@ -44,7 +44,10 @@ int main(int argc, char **argv)
     t_fractal   fractal;
     
     if (argc < 2)
+	{
 		print_help_msg();
+		return(0);
+	}
 	input_check(&fractal, argc, argv); // not done
 	fractal_init(&fractal);
     hooks_init(&fractal); 

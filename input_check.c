@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:02:59 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/15 20:00:25 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:38:30 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,12 @@ int input_check(t_fractal *fractal, int argc, char **argv)
 	{
 		fractal->julia_cx = ft_atof(argv[2]);
 		fractal->julia_cy = ft_atof(argv[3]);
+			if (fractal->julia_cx < -2.0 || fractal->julia_cx > 2.0
+			|| fractal->julia_cy < -2.0 || fractal->julia_cy > 2.0)
+			{
+				print_help_msg();
+				exit(1);
+			}
 	}
 	else
 	{
