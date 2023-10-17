@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:06:10 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/14 13:07:44 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:13:20 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ int calculate_tricorn(double real, double imag)
     while (i < MAX_ITER)
     {
         if (z_real * z_real + z_imag * z_imag > 4.0)
-            return (i); // diverged
+            return (i);
         temp = z_real * z_real - z_imag * z_imag + real;
         z_imag = -2 * z_real * z_imag + imag;
         z_real = temp;
 		i++;
     }
-    return (MAX_ITER); // Did not diverge within max iterations
+    return (0);
 }
 
 void render_tricorn(t_fractal *fractal)
 {
-    int i;
+    int iter;
 	double real;
 	double imag;
     int y;
@@ -48,9 +48,8 @@ void render_tricorn(t_fractal *fractal)
         {
             real = (x - WIDTH / 2.0) * 4.0 / (WIDTH * fractal->zoom) + fractal->shift_x;
             imag = (y - HEIGHT / 2.0) * 4.0 / (HEIGHT * fractal->zoom) + fractal->shift_y;
-            i = calculate_tricorn(real, imag);
-            fractal->color = pixel_color(i);
-            ft_pixel_put(&fractal->img, x, y, fractal->color * i);
+            iter = calculate_tricorn(real, imag);
+            ft_pixel_put(&fractal->img, x, y, fractal->color * iter);
             x++;
         }
         y++;

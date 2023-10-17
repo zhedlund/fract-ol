@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/16 14:14:57 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:28:48 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,19 @@
 
 # include <mlx.h>
 # include <unistd.h>
-# include <stdio.h>
-# include <math.h>
 # include <stdlib.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
 
-#define HELP_MSG "Please enter "./fractol mandelbrot\" or "./fractol julia <value1> <value2>\""
-
-#define WIDTH	800
-#define	HEIGHT	800
-#define MAX_ITER 500
+# define	WIDTH	800
+# define	HEIGHT	800
+# define	MAX_ITER 500
 
 typedef struct s_img
 {
 	void	*mlx_img;
 	char	*addr;
-	int		bpp; //bits per pixel
+	int		bpp;
 	int		line_len;
 	int		endian;
 }	t_img;
@@ -59,7 +55,6 @@ void    render_mandelbrot(t_fractal *fractal);
 void	render_tricorn(t_fractal *fractal);
 
 /* rendering utils */
-int     pixel_color(int i);
 void    ft_pixel_put(t_img *img, int x, int y, int color);
 int     render_fractal(t_fractal *fractal);
 
@@ -77,13 +72,10 @@ void	clean_exit(int exit_code, t_fractal *fractal);
 
 /* utils */
 void	ft_putstr(char *str);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 double	ft_atof(const char *str);
 int		ft_atoi(const char *str);
 char	*ft_strchr(const char *s, int c);
 int		ft_isdigit(char c);
-void	ft_putstr(char *str);
 size_t	ft_strlen(const char *str);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

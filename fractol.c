@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:34:00 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/16 13:27:46 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:25:38 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void    fractal_init(t_fractal *fractal)
     fractal->shift_x = 0.0;
     fractal->shift_y = 0.0;
     fractal->zoom = 1.0;
-    fractal->color = 0xFCBE11;
+    fractal->color = 0x800080;
 	fractal->img.mlx_img = mlx_new_image(fractal->mlx_ptr, WIDTH, HEIGHT);
 	fractal->img.addr = mlx_get_data_addr(fractal->img.mlx_img,
             &fractal->img.bpp, &fractal->img.line_len, &fractal->img.endian);
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 		print_help_msg();
 		return(0);
 	}
-	input_check(&fractal, argc, argv); // not done
+	input_check(&fractal, argc, argv);
 	fractal_init(&fractal);
     hooks_init(&fractal); 
     render_fractal(&fractal); 
@@ -57,39 +57,3 @@ int main(int argc, char **argv)
 	mlx_loop(fractal.mlx_ptr);
 	return (0);
 }
-
-
-/*int main(void)
-{
-	t_fractal fractal;
-	
-	fractal_init(&fractal);  //keep
-    hooks_init(&fractal); // keep
-    render_fractal(&fractal); // keep
-	print_control_options(); // keep
-    fractal.zoom = 1.0; // Start with no zoom
-	fractal.mlx_ptr = mlx_init();
-	if (fractal.mlx_ptr == NULL)
-		return (1);
-	fractal.win_ptr = mlx_new_window(fractal.mlx_ptr, WIDTH, HEIGHT, "Mandelbrot");
-	if (fractal.win_ptr == NULL)
-	{
-		free(fractal.win_ptr);
-		return (1);
-	}
-    fractal.color = 0;
-	// Setup hooks
-	fractal.img.mlx_img = mlx_new_image(fractal.mlx_ptr, WIDTH, HEIGHT);
-	fractal.img.addr = mlx_get_data_addr(fractal.img.mlx_img, &fractal.img.bpp,
-			&fractal.img.line_len, &fractal.img.endian); 
-	mlx_loop_hook(fractal.mlx_ptr, &render_fractal, &fractal); // keep
-	mlx_hook(fractal.win_ptr, KeyPress, KeyPressMask, &key_handler, &fractal);
-	mlx_hook(fractal.win_ptr, ButtonPress, ButtonPressMask, &mouse_handler, &fractal);
-    mlx_hook(fractal.win_ptr, 17, 0, close_window, NULL);
-	mlx_loop(fractal.mlx_ptr); // keep
-	// exit the loop if no window left, and execute code:
-	mlx_destroy_image(fractal.mlx_ptr, fractal.img.mlx_img); //keep
-	mlx_destroy_display(fractal.mlx_ptr); // keep
-	free(fractal.mlx_ptr); // keep
-	return (0);
-} */

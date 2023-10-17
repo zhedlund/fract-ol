@@ -6,37 +6,11 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:02:59 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/16 13:38:30 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:57:44 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-int	ft_atoi(const char *str)
-{
-	long	num;
-	int		sign;
-	int		i;
-
-	sign = 1;
-	num = 0;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == 32))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		num *= 10;
-		num += str[i] - '0';
-		i++;
-	}
-	return (num * sign);
-}
 
 double	ft_atof(const char *str)
 {
