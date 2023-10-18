@@ -6,7 +6,7 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:02:59 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/17 19:19:42 by zhedlund         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:07:14 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ double	ft_atof(const char *str)
 int	input_check(t_fractal *fractal, int argc, char **argv)
 {
 	fractal->name = *argv[1];
-	if (argc == 2)
+	if (argc == 2 && (fractal->name == 'j' || fractal->name == 'm'
+			|| fractal->name == 't'))
 	{
 		fractal->julia_cx = 0.355;
 		fractal->julia_cy = 0.355;
