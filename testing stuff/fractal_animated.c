@@ -1,10 +1,11 @@
+// compile: cc fractal_animated.c -Lminilibx-linux -lmlx_Linux -lX11 -lXext -o fractol
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <X11/X.h>
 #include <X11/keysym.h>
-#include <mlx.h>
-#include <complex.h>
+#include "minilibx-linux/mlx.h"
 
 #define WIDTH 800
 #define HEIGHT 800
