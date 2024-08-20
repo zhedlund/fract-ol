@@ -6,18 +6,18 @@
 /*   By: zhedlund <zhedlund@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:02:42 by zhedlund          #+#    #+#             */
-/*   Updated: 2023/10/17 20:09:21 by zhedlund         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:21:10 by zhedlund         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include <mlx.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
+# include "minilibx-linux/mlx.h"
 
 # define WIDTH	800
 # define HEIGHT	800
